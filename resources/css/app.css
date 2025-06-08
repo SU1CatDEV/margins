@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme {
+    --radius-primary: 1rem; 
+    --breakpoint-xs: 25rem;
+    --breakpoint-hd: 90rem;
+}
+
+@layer utilities {
+    .scrollbar::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    .scrollbar::-webkit-scrollbar-track {
+        border-radius: 4px;
+        background: transparent;
+        margin: 4px 0;
+    }
+    
+    .scrollbar::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background: rgba(200,200,200,1); 
+        border: 2px solid transparent;
+        background-clip: padding-box;
+    }
+    
+    .scrollbar::-webkit-scrollbar-button {
+        height: 0;
+        display: none;
+    }
+}
+
+h1, h2, h3, h4, h5, h6,
+.button, label, [role=heading], .book-date, .apply-cursive {
+    @apply font-cursive;
+}
+.selected-star {
+    @apply fill-amber-300 stroke-amber-500;
+}
+
+.green-icon > svg > path {
+    @apply fill-green-300 stroke-green-600 transition duration-200;
+}
+
+.green-icon:hover > svg > path {
+    @apply fill-green-400 stroke-green-700;
+}
+
+.highlighted-reply {
+    @apply bg-green-100 border-green-300;
+}
+
+.highlighted-reply:hover {
+    @apply bg-green-200 border-green-300;
+}
+
+.last-margin:last-child {
+    @apply mb-10
+}
+
+.logo-color {
+    color: #3396FE;
+}
+
+/* .gray-on-hover:hover {
+    @apply bg-gray-50;
+} */
+
+.gray-on-hover:hover:not(:has(.higher-gray-hover:hover), :has(.higher-unset-hover:hover)) {
+    @apply bg-gray-50;
+}
+
+.higher-gray-hover:hover {
+    @apply bg-gray-50;
+}
+
+.active-nav-link path {
+    fill: #777;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.hidden-accessible {
+  border: 0; 
+  clip: rect(0 0 0 0); 
+  height: 1px;
+  margin: -1px; 
+  overflow: hidden; 
+  padding: 0; 
+  position: absolute; 
+  width: 1px;
+}
+
+.inputfile:focus + label .group-focus-input-ring {
+    @apply ring-1 ring-blue-600 border-2 border-blue-600;
+}
+
+.inputfile:focus + label .group-focus-blue-svg {
+    @apply stroke-blue-600;
+}
+
+.prompted-checkbox
+    input:checked + label > svg {
+        height: 20px;
+        width: 36px;
+        margin-bottom: 0.25rem;
+    }
+
+    .prompted-checkbox label {
+        color: black;
+        line-height: 40px;
+        cursor: pointer;
+        position: relative;
+        &:before {
+            content: "";
+            height: 25px;
+            width: 25px;
+            border:2px solid #ccc;
+            float: left;
+            border-radius: 8px;
+        }
+    }
+
+    .prompted-checkbox svg {
+        stroke: black;
+        stroke-width: 2px;
+        stroke-linecap: round;
+        height: 0px;
+        position: absolute;
+    }
+
+.btn-large {
+    @apply px-10 py-2 text-xl;
+}
+
+.btn-medium {
+    @apply px-8 py-2 text-lg;
+}
+
+.btn-smol {
+    @apply px-6 py-1 text-base;
+}
