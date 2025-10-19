@@ -18,3 +18,9 @@ window.Echo = new Echo({
         headers: {}
     }
 });
+
+// console.log(handshakeCallbackConnected);
+
+// window.Echo.connector.socket.on('reconnecting', (attemptNumber) => {
+//   console.log(`%cSocket reconnecting attempt ${attemptNumber}`, 'color:orange; font-weight:700;');
+// });

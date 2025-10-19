@@ -54,3 +54,9 @@ export default defineConfig({
         ]
    }
 });
+
+// commands to get this thing running:
+// php artisan serve
+// php artisan reverb:start
+// php artisan autosave:run
+// npm run dev

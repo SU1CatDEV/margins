@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Saver\DiffSaver;
 
 class Book extends Model
 {
@@ -44,7 +45,15 @@ class Book extends Model
         });
     }
 
+    /**
+     * if there happens to be data in the central_saver_sessions and we have before it
+     * can be autosaved, we need to clear that out. since we're going to write this
+     * as a cron job in deployment, we're allowed to access central saver here.
+     */
     public static function clearState($bookId) {
+        $data = CentralSaverRepo::getByBook($bookId);
+        // this might be terrible but eh
+        DiffSaver::handleDiffTransfer($data);
         Book::where('id', $bookId)->update([
             'state' => [],
         ]);

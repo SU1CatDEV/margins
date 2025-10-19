@@ -49242,6 +49242,7 @@ class AnnotationBorderStyle {
     this.verticalCornerRadius = 0;
   }
   setWidth(width, rect = [0, 0, 0, 0]) {
+    console.error("Sigh");
     if (width instanceof Name) {
       this.width = 0;
       return;
@@ -54099,6 +54100,7 @@ class Page {
       if (annotation.id) {
         const ref = Ref.fromString(annotation.id);
         if (!ref) {
+          console.error("nyalright.");
           warn(`A non-linked annotation cannot be modified: ${annotation.id}`);
           continue;
         }
@@ -56734,6 +56736,7 @@ class WorkerMessageHandler {
       const changes = new RefSetCache();
       const promises = [];
       const newAnnotationsByPage = !isPureXfa ? getNewAnnotationsMap(annotationStorage) : null;
+      console.error(newAnnotationsByPage);
       const [stream, acroForm, acroFormRef, startXRef, xref, linearization, _structTreeRoot] = await Promise.all(globalPromises);
       const catalogRef = xref.trailer.getRaw("Root") || null;
       let structTreeRoot;
@@ -56755,6 +56758,7 @@ class WorkerMessageHandler {
         }
         const imagePromises = AnnotationFactory.generateImages(annotationStorage.values(), xref, pdfManager.evaluatorOptions.isOffscreenCanvasSupported);
         const newAnnotationPromises = structTreeRoot === undefined ? promises : [];
+        console.error(newAnnotationsByPage);
         for (const [pageIndex, annotations] of newAnnotationsByPage) {
           newAnnotationPromises.push(pdfManager.getPage(pageIndex).then(page => {
             const task = new WorkerTask(`Save (editor): page ${pageIndex}`);

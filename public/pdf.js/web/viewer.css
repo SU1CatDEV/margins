@@ -355,6 +355,19 @@
  .toolbar {
    z-index: 2;
  }
+
+ .offlinebar {
+    text-align: center;
+    width: 100%;
+    display: inline flex;
+    justify-content: center;
+    background-color: rgb(254 202 202);
+    padding: 15px 0px;
+    border-radius: 0px 0px 15px 15px;
+    margin-top: 3px;
+    border: 2px solid rgb(252 165 165);
+    box-sizing: border-box;
+  }
  
  #toolbarSidebar {
    width: 100%;

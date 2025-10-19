@@ -45,6 +45,7 @@ See https://github.com/adobe-type-tools/cmap-resources
 <!--#else-->
 <!-- <link rel="stylesheet" href="{{asset('css/app.css')}}"> -->
 <link rel="stylesheet" href="{{asset('pdf.js/web/viewer.css')}}">
+<!-- <link rel="stylesheet" href="/src/resources/css/viewer.css" /> -->
 <!--#endif-->
 
 <!--#if MOZCENTRAL-->
@@ -117,9 +118,14 @@ See https://github.com/adobe-type-tools/cmap-resources
       if (window.links) {
         window.link = window.links[sessionStorage.getItem("linkIDToFlash")];
       }
+
+      console.log(window.Echo);
+    
     </script>
     @vite(['resources/js/bootstrap.js'])
     @vite(['resources/js/pdf.js/web/viewer.js'])
+    @vite('resources/css/viewer.css')
+    <!-- @vite(['resources/css/pdf.js/web/viewer.js']) -->
     <!-- <script src="{{asset('pdf.js/web/viewer.js')}}" type="module"></script> -->
 <!--#endif-->
   </head>
@@ -342,7 +348,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                         </div>
                         <div class="editorParamsSetter">
                           <label for="editorInkThickness" class="editorParamsLabel" data-l10n-id="pdfjs-editor-ink-thickness-input">Thickness</label>
-                          <input type="range" id="editorInkThickness" class="editorParamsSlider" value="1" min="1" max="20" step="1" tabindex="0">
+                          <input type="range" id="editorInkThickness" class="editorParamsSlider" value="1" min="0.5" max="19.5" step="1" tabindex="0">
                         </div>
                         <div class="editorParamsSetter">
                           <label for="editorInkOpacity" class="editorParamsLabel" data-l10n-id="pdfjs-editor-ink-opacity-input">Opacity</label>
@@ -467,10 +473,18 @@ See https://github.com/adobe-type-tools/cmap-resources
                 </div>
               </div>
             </div>
+            <div id="offlineBar" class="offlinebar hidden">
+              You're offline! Please check your internet connection. If this persists, message me on Discord (@schrodinger1cat) and I'll get the server back up in no time!^^ <br>
+              Your work will be autosaved, but please refrain from making heavy changes to not overload the server. Thanks!!:3
+            </div>
+            <div id="saveFail" class="failpopup hidden bg-red-300">
+              Failed to save! <br/>
+              Please try again in a few minutes or message me on Discord (@schrodinger1cat) if this persists.
+            </div>
           </div>
         </div>
 
-        <div class="hidden absolute w-full top-20 bg-blue-200 border-blue-300" id="needsAuthBar">you need to authenticate to be able to blablahblah SHUT UPPPPP</div>
+        <div class="hidden absolute w-full top-20 bg-blue-200 border-blue-300" id="needsAuthBar">You need to authenticate to be able to edit this!</div>
 
         <div id="viewerContainer" tabindex="0">
           <div id="viewer" class="pdfViewer"></div>

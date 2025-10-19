@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Book;
+use App\Saver\DiffSaver;
 use App\Models\CentralSaverRepo;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -28,21 +28,6 @@ class Autosave extends Command implements SignalableCommandInterface
 
     private bool $running = true;
 
-    private function handleDiffTransfer($sessionData) {
-        if ($sessionData['diffs']) {
-            $currentBook = Book::find($sessionData["book_id"]);
-            $mergedDiffs = CentralSaverRepo::collapseDiffs(array_merge($currentBook->state, $sessionData['diffs']));
-                    
-            $currentBook->state = $mergedDiffs;
-            $currentBook->save();
-            CentralSaverRepo::clearDiffs($sessionData['id']);
-        }
-
-        if (CentralSaverRepo::shouldClear($sessionData["book_id"])){
-            CentralSaverRepo::clear($sessionData["book_id"]);
-        }
-    }
-
     public function handle()
     {
         $output = new ConsoleOutput();
@@ -51,9 +36,9 @@ class Autosave extends Command implements SignalableCommandInterface
         while ($this->running) {
             $data = CentralSaverRepo::all()->toArray();
             foreach ($data as $sessionData) {
-                self::handleDiffTransfer($sessionData);
+                DiffSaver::handleDiffTransfer($sessionData);
             }
-            sleep(120);
+            sleep(5);
         }
     }
 
@@ -74,7 +59,7 @@ class Autosave extends Command implements SignalableCommandInterface
 
         $data = CentralSaverRepo::all()->toArray();
         foreach ($data as $sessionData) {
-            self::handleDiffTransfer($sessionData);
+            DiffSaver::handleDiffTransfer($sessionData);
         }
 
         return $previousExitCode;

@@ -15,7 +15,7 @@ use Inertia\Inertia;
 class DashboardController extends Controller
 {
     public function index() {
-        Log::info(Session::get("isUserBanned"));
+        // Log::info(Session::get("isUserBanned"));
         if (Auth::check()) {
             $books = Book::where("user_id", request()->user()->id)->limit(9)->get();
             $count = Book::where("user_id", request()->user()->id)->count();

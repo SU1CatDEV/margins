@@ -4,6 +4,7 @@ namespace App\Models;
 
 use DateTime;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Carbon;
 
 class CentralSaverRepo
 {
@@ -13,40 +14,30 @@ class CentralSaverRepo
     public static function collapseDiffs($diffs)
     {
         $lastModifications = [];
-        $addRemoveIdMap = [];
 
-        foreach ($diffs as $editorId => $editor) {
-            $key = strval($editorId);
-            foreach($editor as $modification) {
-                if ($modification['action'] === 'modify') {
-                    $lastModifications[$key] = [
-                        'action' => $modification['action'],
-                        'element' => $modification['data'],
-                    ];
-                } elseif (!array_key_exists($key, $addRemoveIdMap)) {
-                    $addRemoveIdMap[$key] = [
-                        'action' => $modification['action'],
-                        'element' => $modification['data'],
-                    ];
-                    if ($modification['action'] === 'remove') {
-                        unset($lastModifications[$key]);
-                    }
-                } else {
-                    $existingEntry = $addRemoveIdMap[$key];
-                    if ($existingEntry['action'] !== $modification['action']) {
-                        unset($lastModifications[$key]);
-                        unset($addRemoveIdMap[$key]);
-                    } else {
-                        $addRemoveIdMap[$key] = [
-                            'action' => $modification['action'],
-                            'element' => $modification['data'],
-                        ];
-                    }
-                }
+        // wait holon what. What
+        // nevermind its the same algorithm its fine
+        // okay wait but . we dont want the key tho
+        // ughhhhh 
+        // Log::info("literally anything searchable");
+
+        foreach($diffs as $modification) {
+            $key = $modification['element']['id'];
+            if (
+                $modification['action'] == "modify" || 
+                $modification["action"] == "add" || 
+                ($modification["action"] == "remove" && 
+                !array_key_exists($key, $lastModifications))
+            ) {
+                $lastModifications[$key] = [
+                    'action' => $modification['action'],
+                    'element' => $modification['element'],
+                ];
+            } else {
+                unset($lastModifications[$key]);
             }
-            
         }
-        return array_merge($lastModifications, $addRemoveIdMap);
+        return array_values($lastModifications);
     }
 
     /**
@@ -120,15 +111,22 @@ class CentralSaverRepo
     /**
      * Handle a user leaving the session.
      */
-    public static function handleUserLeave($bookId)
+    public static function handleUserLeave($bookId, $userId)
     {
         $session = CentralSaverSession::where('book_id', $bookId)->first();
-        if ($session && count($session->users ?? []) == 1) {
-            $session->update([
-                'inactive' => true,
-                'clearby' => now()->addMinutes(2),
-                'users' => [],
-            ]);
+        if ($session) {
+            if (count($session->users ?? []) <= 1) {
+                $session->update([
+                    'inactive' => true,
+                    'clearby' => now()->addMinutes(2),
+                    'users' => [],
+                ]);
+            } else {
+                $sessionUsers = $session->users;
+                unset($sessionUsers[$userId]);
+                var_dump("user" . $userId);
+                var_dump($sessionUsers);
+            }
         }
     }
 
@@ -153,7 +151,8 @@ class CentralSaverRepo
         $session = CentralSaverSession::where('book_id', $bookId)->first();
         if ($session) {
             $user = $session->users[$userId] ?? null;
-            return $user && ($user['lastUpdate'] == null || now()->greaterThan($user['lastUpdate']->modify('+1 minute')));
+            $lastUpdate = Carbon::parse($user['lastUpdate']);
+            return $user && ($user['lastUpdate'] == null || now()->greaterThan($lastUpdate->addMinute()));
         }
         return true;
     }
@@ -164,10 +163,16 @@ class CentralSaverRepo
     public static function handleUserSaveRequest($bookId, $userId)
     {
         $session = CentralSaverSession::where('book_id', $bookId)->first();
-        if ($session) {
+        Log::info($session);
+        if ($session && $userId) { // for users who didnt connect
+            // we do not want disconnected users to clear the diffs they did not receive
+            // Log::info($session->users);
+            // ugh. good night
+            // Log::info(array_merge($session->users, [$userId => [...$session->users[$userId], 'lastUpdate' => now()]]));
+            // Log::info(array_merge($session->users ?? [], [$userId => ['lastUpdate' => now()]]));
             $session->update([
                 'diffs' => [],
-                'users' => array_merge($session->users ?? [], [$userId => ['lastUpdate' => now()]]),
+                'users' => array_merge($session->users, [$userId => [...$session->users[$userId], 'lastUpdate' => now()]]),
             ]);
         }
     }
@@ -191,6 +196,13 @@ class CentralSaverRepo
 
     public static function all() {
         return CentralSaverSession::all();
+    }
+
+    public static function getByBook($bookId) {
+        // Log::info($bookId);
+        $thing = CentralSaverSession::where("book_id", $bookId)->first();
+        // Log::info($thing);
+        return $thing;
     }
 
     public static function clearDiffs($sessionId) {

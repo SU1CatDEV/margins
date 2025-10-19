@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 use Laravel\Reverb\Events\MessageReceived;
+use Laravel\Reverb\Contracts\Connection;
 
 class BroadcastMessage
 {
@@ -26,7 +27,7 @@ class BroadcastMessage
     public function handle($event): void
     {
         $message = json_decode($event->message, true);
-        Log::info($message);
+        Log::info("seding event " . $message["event"]);
         if ($message['event'] == "pusher:subscribe") {
             if (str_starts_with($message['data']['channel'], 'presence-book.')) {
                 $bookId = intval(str_replace('presence-book.', '', $message['data']['channel']));
@@ -37,9 +38,8 @@ class BroadcastMessage
                     array_push($activeUsers, $userId);
                     $book->active_users = $activeUsers;
                     $book->save();
-                    Log::info($book);
+                    // Log::info($book);
                 }
-                CentralSaverRepo::handleUserJoin($bookId, $userId);
             }
         }
         elseif ($message['event'] == "client-booksync") {

@@ -31,14 +31,11 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        Log::info($request->input());
         $request->validate([
             'username' => 'required|string|max:16',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-
-        Log::info("got past validashun");
 
         $user = User::create([
             'username' => $request->username,
@@ -46,9 +43,6 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
-        Log::info("user? mm?");
-        Log::info($user);
 
         event(new Registered($user));
 
