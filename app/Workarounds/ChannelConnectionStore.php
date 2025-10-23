@@ -6,7 +6,7 @@ class ChannelConnectionStore {
     static private $store = [];
 
     public static function getChannel($connectionId) {
-        return self::$store["blah"] ?? null;
+        return self::$store[$connectionId] ?? null;
     }
 
     public static function addToStore($connectionId, $channelId) {

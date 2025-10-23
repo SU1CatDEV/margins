@@ -120,6 +120,7 @@
 }
 
 #addSignatureDialog {
+  /* we removed that already so this is basically never used methinks */
   --secondary-color: var(--text-secondary-color);
   --bg-hover: #e0e0e6;
   --tab-top-line-active-color: #0060df;

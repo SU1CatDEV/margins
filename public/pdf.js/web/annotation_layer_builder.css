@@ -219,14 +219,14 @@
   .textWidgetAnnotation :is(input, textarea):hover,
   .choiceWidgetAnnotation select:hover,
   .buttonWidgetAnnotation.checkBox input:hover {
-    border-radius: 2px;
+    border-radius: 0.5rem;
   }
 
   .textWidgetAnnotation :is(input, textarea):focus,
   .choiceWidgetAnnotation select:focus {
     background: none;
     border: 2px solid var(--input-focus-border-color);
-    border-radius: 2px;
+    border-radius: 0.5rem;
     outline: var(--input-focus-outline);
   }
 
@@ -237,7 +237,7 @@
 
   .buttonWidgetAnnotation.checkBox :focus {
     border: 2px solid var(--input-focus-border-color);
-    border-radius: 2px;
+    border-radius: 0.5rem;
     outline: var(--input-focus-outline);
   }
 

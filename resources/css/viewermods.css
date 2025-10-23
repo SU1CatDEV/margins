@@ -6,10 +6,16 @@
 ::before,
 ::after {
   box-sizing: content-box;
+  transition: ease-in-out;
+  transition-duration: 150ms;
 }
 
 button.delete {
   font-size: 1px;
+}
+
+input {
+  border-radius: 0.5rem !important;
 }
 
 /* .page {
@@ -51,3 +57,20 @@ button.delete {
     height: 0;
     display: none;
 } */
+
+#backendRequestSaveButton {
+  border: 2px solid oklch(80.9% 0.105 251.813);
+  background: oklch(88.2% 0.059 254.128);
+  padding: 2px 8px;
+  border-radius: 0.5rem;
+  height: 32px;
+  margin-left: 8px;
+  margin-right: 4px;
+  transition: ease-in-out;
+  transition-duration: 150ms;
+}
+
+#backendRequestSaveButton:hover {
+  border: 2px solid oklch(70.7% 0.165 254.624);
+  background: oklch(80.9% 0.105 251.813);
+}

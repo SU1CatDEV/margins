@@ -325,7 +325,8 @@ pdfjs-solution-floating-button-label = Add a solution
 pdfjs-editor-signature-button =
     .title = Add signature
 pdfjs-editor-signature-button-label = Add signature
-pdfjs-editor-erase-button.title = Erase
+pdfjs-editor-erase-button =
+    .title = Erase
 pdfjs-editor-erase-button-label = Erase
 
 ## Remove button for the various kind of editor.

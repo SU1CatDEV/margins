@@ -26,7 +26,7 @@
    --sidebar-transition-duration: 200ms;
    --sidebar-transition-timing-function: ease;
  
-   --toolbar-height: 32px;
+   --toolbar-height: 48px;
    --toolbar-horizontal-padding: 1px;
    --toolbar-vertical-padding: 2px;
    --icon-size: 16px;
@@ -50,16 +50,16 @@
    --toolbar-bg-color: white;
    --toolbar-border-color: oklch(92.8% 0.006 264.531);
    --toolbar-box-shadow: none;
-   --toolbar-border-bottom: none;
+   --toolbar-border-bottom: 2px solid var(--toolbar-border-color);
    --toolbarSidebar-box-shadow: none;
    --toolbarSidebar-border-bottom: none;
-   --button-hover-color: color-mix(in srgb, currentColor 17%, transparent);
+   --button-hover-color: color-mix(in srgb, currentColor 7%, transparent);
    --toggled-btn-color: rgb(0 0 0);
    --toggled-btn-bg-color: oklch(88.2% 0.059 254.128);
    --toggled-hover-active-btn-color: rgb(0 0 0 / 0.4);
    --toggled-hover-btn-outline: none;
    --dropdown-btn-bg-color: white;
-   --dropdown-btn-border: none;
+   --dropdown-btn-border: 2px solid var(--toolbar-border-color);
    --separator-color: oklch(92.8% 0.006 264.531);
    --field-color: rgb(6, 6, 6);
    --field-bg-color: white;
@@ -228,7 +228,7 @@
      --toolbar-height: 30px;
    }
    &[data-toolbar-density="touch"] {
-     --toolbar-height: 44px;
+     --toolbar-height: 64px;
    }
  }
  
@@ -425,7 +425,7 @@
  
  .doorHanger,
  .doorHangerRight {
-   border-radius: 2px;
+   border-radius: 0.5rem;
    box-shadow:
      0 1px 5px var(--doorhanger-border-color),
      0 0 0 1px var(--doorhanger-border-color);
@@ -458,7 +458,8 @@
  
  .doorHangerRight {
    inset-inline-end: calc(50% - var(--doorhanger-height) - 1px);
- 
+   border-top-right-radius: 0;
+
    &::before {
      inset-inline-end: -1px;
    }
@@ -471,7 +472,8 @@
  
  .doorHanger {
    inset-inline-start: calc(50% - var(--doorhanger-height) - 1px);
- 
+   border-top-left-radius: 0;
+
    &::before {
      inset-inline-start: -1px;
    }
@@ -511,7 +513,7 @@
    margin: 2px 1px;
    padding: 2px 6px 0;
    border: none;
-   border-radius: 2px;
+   border-radius: 0.5rem;
    color: var(--main-color);
    font-size: 12px;
    line-height: 14px;
@@ -672,7 +674,7 @@
  .toolbarField {
    padding: 4px 7px;
    margin: 3px 0;
-   border-radius: 2px;
+   border-radius: 0.5rem;
    background-color: var(--field-bg-color);
    background-clip: padding-box;
    border: 1px solid var(--field-border-color);
@@ -742,7 +744,8 @@
    width: calc(100% - 8px);
    inset-block: 0;
    padding: 4px 4px 0;
-   overflow: auto;
+   overflow-y: auto;
+   overflow-x: hidden;
    user-select: none;
  }
  
@@ -767,7 +770,7 @@
    margin: 0 10px 5px;
    padding: 1px;
    border: 7px solid transparent;
-   border-radius: 2px;
+   border-radius: 0.5rem;
  }
  
  #thumbnailView > a:last-of-type > .thumbnail {
@@ -818,7 +821,7 @@
    margin-bottom: 1px;
    padding: 2px 0 5px;
    padding-inline-start: 4px;
-   border-radius: 2px;
+   border-radius: 0.5rem;
    color: var(--treeitem-color);
    font-size: 13px;
    line-height: 15px;
@@ -873,7 +876,7 @@
  .treeItem > a:hover {
    background-color: var(--treeitem-bg-color);
    background-clip: padding-box;
-   border-radius: 2px;
+   border-radius: 0.5rem;
    color: var(--treeitem-hover-color);
  }
  
@@ -1006,7 +1009,7 @@
    border: none;
    color: var(--main-color);
    outline: none;
-   border-radius: 2px;
+   border-radius: 0.5rem;
    box-sizing: border-box;
    font: message-box;
    flex: none;
@@ -1311,7 +1314,7 @@
  }
  
  #findbar {
-   --input-horizontal-padding: 4px;
+   --input-horizontal-padding: 10px;
    --findbar-padding: 2px;
  
    width: max-content;
@@ -1321,7 +1324,7 @@
    position: absolute;
    z-index: 30000;
    cursor: default;
-   padding: 0;
+   padding: 4px 8px;
    min-width: 300px;
    background-color: var(--toolbar-bg-color);
    box-sizing: border-box;
@@ -1496,7 +1499,7 @@
    height: 100%;
    padding-inline: 4px;
    margin: 2px;
-   border-radius: 2px;
+   border-radius: 0.5rem;
    color: var(--main-color);
    font-size: 12px;
    line-height: 14px;
@@ -1536,8 +1539,8 @@
    min-width: 140px;
    padding: 0;
    background-color: var(--dropdown-btn-bg-color);
-   border: var(--dropdown-btn-border);
-   border-radius: 2px;
+   border: none;
+   border-radius: 0.5rem;
    color: var(--main-color);
    font-size: 12px;
    line-height: 14px;
@@ -1561,7 +1564,8 @@
      margin: 0;
      padding-block: 1px 2px;
      padding-inline: 6px 38px;
-     border: none;
+     border: var(--dropdown-btn-border);
+     border-radius: 0.5rem;
      outline: none;
      background-color: var(--dropdown-btn-bg-color);
  
@@ -1621,6 +1625,7 @@
      }
  
      input {
+       border: 2px solid var(--field-border-color);
        font: message-box;
      }
  
