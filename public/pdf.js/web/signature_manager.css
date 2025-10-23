@@ -26,12 +26,12 @@
   --button-signature-hover-bg: #e0e0e6;
   --button-signature-hover-color: var(--button-signature-color);
 
-  @media (prefers-color-scheme: dark) {
+  /* @media (prefers-color-scheme: dark) {
     --signature-bg: #2b2a33;
     --signature-hover-bg: var(--signature-bg);
     --button-signature-active-bg: #5b5b66;
     --button-signature-hover-bg: #52525e;
-  }
+  } */
 
   @media screen and (forced-colors: active) {
     --signature-bg: HighlightText;
@@ -164,8 +164,8 @@
   --thickness-slider-color: var(--primary-color);
   --draw-cursor: url(images/cursor-editorInk.svg) 0 16, pointer;
 
-  @media (prefers-color-scheme: dark) {
-    /* TODO: Update the dialog colors for dark mode but in dialog.css */
+  /* TODO: Update the dialog colors for dark mode but in dialog.css */
+  /* @media (prefers-color-scheme: dark) {  
     --dialog-bg-color: #42414d;
     --bg-hover: #52525e;
     --primary-color: #fbfbfe;
@@ -179,7 +179,7 @@
       #2b2a33,
       transparent 40%
     );
-  }
+  } */
 
   @media screen and (forced-colors: active) {
     --secondary-color: ButtonText;

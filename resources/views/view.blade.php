@@ -124,15 +124,14 @@ See https://github.com/adobe-type-tools/cmap-resources
     </script>
     @vite(['resources/js/bootstrap.js'])
     @vite(['resources/js/pdf.js/web/viewer.js'])
-    @vite('resources/css/viewer.css')
+    @vite('resources/css/viewermods.css')
     <!-- @vite(['resources/css/pdf.js/web/viewer.js']) -->
     <!-- <script src="{{asset('pdf.js/web/viewer.js')}}" type="module"></script> -->
 <!--#endif-->
   </head>
         
-  <body tabindex="0">    
+  <body tabindex="0" class="scrollbar">    
     <div id="outerContainer">
-
       <div id="sidebarContainer">
         <div id="toolbarSidebar" class="toolbarHorizontalGroup">
           <div id="toolbarSidebarLeft">
@@ -282,7 +281,8 @@ See https://github.com/adobe-type-tools/cmap-resources
               </div>
               <div id="toolbarViewerRight" class="toolbarHorizontalGroup">
                 <div id="editorModeButtons" class="toolbarHorizontalGroup" role="radiogroup">
-                  <div id="editorSignature" class="toolbarButtonWithContainer" hidden="true">
+                  <!-- this is hell to maintain and can literally be replaced w the image upload and/or ink editing for most of my use cases. -->
+                  <!-- <div id="editorSignature" class="toolbarButtonWithContainer" hidden="true">
                     <button id="editorSignatureButton" class="toolbarButton" type="button" disabled="disabled" title="Add signature" role="radio" aria-expanded="false" aria-haspopup="true" aria-controls="editorSignatureParamsToolbar" tabindex="0" data-l10n-id="pdfjs-editor-signature-button">
                       <span data-l10n-id="pdfjs-editor-signature-button-label">Add signature</span>
                     </button>
@@ -293,7 +293,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                         </button>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                   <div id="editorHighlight" class="toolbarButtonWithContainer">
                     <button id="editorHighlightButton" class="toolbarButton" type="button" disabled="disabled" title="Highlight" role="radio" aria-expanded="false" aria-haspopup="true" aria-controls="editorHighlightParamsToolbar" tabindex="0" data-l10n-id="pdfjs-editor-highlight-button">
                       <span data-l10n-id="pdfjs-editor-highlight-button-label">Highlight</span>
@@ -473,7 +473,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                 </div>
               </div>
             </div>
-            <div id="offlineBar" class="offlinebar hidden">
+            <div id="offlineBar" class="offlinebar bg-red-200 border-2 border-red-300 hidden">
               You're offline! Please check your internet connection. If this persists, message me on Discord (@schrodinger1cat) and I'll get the server back up in no time!^^ <br>
               Your work will be autosaved, but please refrain from making heavy changes to not overload the server. Thanks!!:3
             </div>

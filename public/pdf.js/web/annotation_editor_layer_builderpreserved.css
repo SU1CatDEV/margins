@@ -249,14 +249,14 @@
     --alt-text-hover-done-color: var(--alt-text-done-color);
     --alt-text-hover-warning-color: var(--alt-text-warning-color);
 
-    @media (prefers-color-scheme: dark) {
+    /* @media (prefers-color-scheme: dark) {
       --editor-toolbar-bg-color: #2b2a33;
       --editor-toolbar-fg-color: #fbfbfe;
       --editor-toolbar-hover-bg-color: #52525e;
       --editor-toolbar-focus-outline-color: #0df;
       --alt-text-done-color: #54ffbd;
       --alt-text-warning-color: #80ebff;
-    }
+    } */
 
     @media screen and (forced-colors: active) {
       --editor-toolbar-bg-color: ButtonFace;
@@ -491,11 +491,11 @@
             --alt-text-tooltip-border: #8f8f9d;
             --alt-text-tooltip-shadow: 0px 2px 6px 0px rgb(58 57 68 / 0.2);
 
-            @media (prefers-color-scheme: dark) {
+            /* @media (prefers-color-scheme: dark) {
               --alt-text-tooltip-bg: #1c1b22;
               --alt-text-tooltip-fg: #fbfbfe;
               --alt-text-tooltip-shadow: 0px 2px 6px 0px #15141a;
-            }
+            } */
 
             @media screen and (forced-colors: active) {
               --alt-text-tooltip-bg: Canvas;
@@ -608,11 +608,11 @@
     --no-alt-text-badge-bg-color: #cfcfd8;
     --no-alt-text-badge-fg-color: #5b5b66;
 
-    @media (prefers-color-scheme: dark) {
+    /* @media (prefers-color-scheme: dark) {
       --no-alt-text-badge-border-color: #52525e;
       --no-alt-text-badge-bg-color: #fbfbfe;
       --no-alt-text-badge-fg-color: #15141a;
-    }
+    } */
 
     @media screen and (forced-colors: active) {
       --no-alt-text-badge-border-color: ButtonText;
@@ -905,9 +905,9 @@
   --preview-image-bg-color: #f0f0f4;
   --preview-image-border: none;
 
-  @media (prefers-color-scheme: dark) {
+  /* @media (prefers-color-scheme: dark) {
     --preview-image-bg-color: #2b2a33;
-  }
+  } */
 
   @media screen and (forced-colors: active) {
     --preview-image-bg-color: ButtonFace;
@@ -1089,11 +1089,11 @@
   --selected-outline-color: #0060df;
   --swatch-border-color: #cfcfd8;
 
-  @media (prefers-color-scheme: dark) {
+  /* @media (prefers-color-scheme: dark) {
     --hover-outline-color: #80ebff;
     --selected-outline-color: #aaf2ff;
     --swatch-border-color: #52525e;
-  }
+  } */
 
   @media screen and (forced-colors: active) {
     --hover-outline-color: Highlight;
@@ -1335,9 +1335,9 @@
 
       --example-color: #bfbfc9;
 
-      @media (prefers-color-scheme: dark) {
+      /* @media (prefers-color-scheme: dark) {
         --example-color: #80808e;
-      }
+      } */
 
       @media screen and (forced-colors: active) {
         --example-color: CanvasText;
@@ -1377,9 +1377,9 @@
     .divider {
       --divider-color: #d7d7db;
 
-      @media (prefers-color-scheme: dark) {
+      /* @media (prefers-color-scheme: dark) {
         --divider-color: #8f8f9d;
-      }
+      } */
 
       @media screen and (forced-colors: active) {
         --divider-color: CanvasText;

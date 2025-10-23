@@ -27,13 +27,13 @@
   --border-color-interactive-hover: var(--border-color-interactive);
   --border-color-interactive-active: var(--border-color-interactive);
 
-  @media (prefers-color-scheme: dark) {
+  /* @media (prefers-color-scheme: dark) {
     --color-accent-primary: #0df;
     --color-accent-primary-hover: #80ebff;
     --color-accent-primary-active: #aaf2ff;
     --color-canvas: #1c1b22;
     --border-color-interactive: #f9f9fa;
-  }
+  } */
 
   @media (forced-colors: active) {
     --color-accent-primary: ButtonText;

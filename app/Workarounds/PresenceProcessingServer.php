@@ -37,10 +37,12 @@ class PresenceProcessingServer extends BaseServer
         // $allChannels = $this->channels->for($connection->app())->all();
         // var_dump(count($allChannels));
         
-        // $channelName = ChannelConnectionStore::getChannel($connection->id());
-        // CentralSaverRepo::handleUserLeave(intval(str_replace('presence-book.', '', $channelName)), $connection->id());
+        $channelName = ChannelConnectionStore::getChannel($connection->id());
+        if ($channelName) {
+            CentralSaverRepo::handleUserLeave(intval(str_replace('presence-book.', '', $channelName)), $connection->id());
+        } // else: the user did not properly connect in the first place
 
-        // ChannelConnectionStore::disconnectFromStore($connection->id());
+        ChannelConnectionStore::disconnectFromStore($connection->id());
 
         $this->channels
             ->for($connection->app())

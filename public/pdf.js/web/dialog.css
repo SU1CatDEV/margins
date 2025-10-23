@@ -50,7 +50,7 @@
   --button-disabled-bg-color: color-mix(in srgb, currentcolor, transparent 60%);
   --button-disabled-fg-color: var(--button-disabled-bg-color);
 
-  @media (prefers-color-scheme: dark) {
+  /* @media (prefers-color-scheme: dark) {
     --dialog-bg-color: #1c1b22;
     --dialog-border-color: #1c1b22;
     --dialog-shadow: 0 2px 14px 0 #15141a;
@@ -70,7 +70,7 @@
     --button-secondary-bg-color: #2b2a33;
     --button-primary-bg-color: #0df;
     --button-primary-fg-color: #15141a;
-  }
+  } */
 
   @media screen and (forced-colors: active) {
     --dialog-bg-color: Canvas;
@@ -289,12 +289,12 @@
       --message-bar-icon: url(images/messageBar_warning.svg);
       --message-bar-icon-color: #cd411e;
 
-      @media (prefers-color-scheme: dark) {
+      /* @media (prefers-color-scheme: dark) {
         --message-bar-bg-color: #5a3100;
         --message-bar-fg-color: #fbfbfe;
         --message-bar-border-color: rgb(255 255 255 / 0.08);
         --message-bar-icon-color: #e49c49;
-      }
+      } */
 
       @media screen and (forced-colors: active) {
         --message-bar-bg-color: HighlightText;

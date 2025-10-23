@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+::before,
+::after {
+  box-sizing: content-box;
+}
+
+button.delete {
+  font-size: 1px;
+}
+
+/* .page {
+  box-shadow: 0 0 0 2px firebrick;
+  border: 7px solid transparent !important;
+} */
+
+/* .page {
+  margin-top: 10px !important;
+} */
+
+.pdfViewer {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+#scaleSelect {
+  background: none !important;
+}
+
+/* *::-webkit-scrollbar {
+    width: px;
+}
+
+*::-webkit-scrollbar-track {
+    border-radius: 4px;
+    background: transparent;
+    margin: 4px 0;
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: rgba(200,200,200,1); 
+    border: 2px solid transparent;
+    background-clip: padding-box;
+} */
+
+/* *::-webkit-scrollbar-button {
+    height: 0;
+    display: none;
+} */

@@ -124,8 +124,8 @@ class CentralSaverRepo
             } else {
                 $sessionUsers = $session->users;
                 unset($sessionUsers[$userId]);
-                var_dump("user" . $userId);
-                var_dump($sessionUsers);
+                // var_dump("user" . $userId);
+                // var_dump($sessionUsers);
             }
         }
     }

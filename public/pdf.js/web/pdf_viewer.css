@@ -24,15 +24,15 @@
   --viewer-container-height: 0;
   --pdfViewer-padding-bottom: 0;
   --page-margin: 1px auto -8px;
-  --page-border: 9px solid transparent;
+  --page-border: 9px solid oklch(80.9% 0.105 251.813);
   --spreadHorizontalWrapped-margin-LR: -3.5px;
   --loading-icon-delay: 400ms;
-  --focus-ring-color: #0060df;
+  --focus-ring-color: oklch(80.9% 0.105 251.813);
   --focus-ring-outline: 2px solid var(--focus-ring-color);
 
-  @media (prefers-color-scheme: dark) {
+  /* @media (prefers-color-scheme: dark) {
     --focus-ring-color: #0df;
-  }
+  } */
 
   @media screen and (forced-colors: active) {
     --pdfViewer-padding-bottom: 9px;
