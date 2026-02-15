@@ -3,6 +3,7 @@ import { validatePDFHasText } from  "pdfjs/custom_helpers.js";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import PrimaryButton from "@/Components/PrimaryButton";
 import Checkbox from "@/Components/Checkbox";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function CreateBook() {
     const [bookTitle, setBookTitle] = useState("");
@@ -14,31 +15,41 @@ export default function CreateBook() {
     const pdfUpload = useRef(null);
     const [goodFile, setGoodFile] = useState(null);
 
+    const { executeRecaptcha } = useGoogleReCaptcha();
+
     async function addBookRequest(e) {
         e.preventDefault();
         const reader = new FileReader();
-        reader.onload = () => {
-        const base64Data = reader.result.split(",")[1];
+        reader.onload = async () => {
+            const base64Data = reader.result.split(",")[1];
 
-        var data = {
-            title: bookTitle,
-            author: bookAuthor,
-            subjects: bookSubjects,
-            description: bookDescription,
-            pdf_blob: base64Data
-        };
-        
-        fetch("/book/upload", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-                .content,
-            },
-            body: JSON.stringify(data),
-        })
-            .then(response => response.json())
+            const token = await executeRecaptcha("CREATEBOOK");
+
+            var data = {
+                title: bookTitle,
+                author: bookAuthor,
+                subjects: bookSubjects,
+                description: bookDescription,
+                pdf_blob: base64Data,
+                token
+            };
+            
+            fetch("/book/upload", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                    .content,
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw response;
+                }
+                return response.json();
+            })
             .then(responseData => {
                 window.location.href = "/book/" + responseData.book.id;
             })
@@ -79,7 +90,7 @@ export default function CreateBook() {
                         <div className="mb-1">Upload file</div>
                         <div className="flex items-center">
                             <svg className="md:w-[36px] md:h-[36px] w-[30px] h-[30px] stroke-black group-focus-blue-svg box-content rounded-lg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M28 4H12C10.9391 4 9.92172 4.42143 9.17157 5.17157C8.42143 5.92172 8 6.93913 8 8V40C8 41.0609 8.42143 42.0783 9.17157 42.8284C9.92172 43.5786 10.9391 44 12 44H36C37.0609 44 38.0783 43.5786 38.8284 42.8284C39.5786 42.0783 40 41.0609 40 40V16M28 4L40 16M28 4V16H40M24 36V24M18 30H30" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M28 4H12C10.9391 4 9.92172 4.42143 9.17157 5.17157C8.42143 5.92172 8 6.93913 8 8V40C8 41.0609 8.42143 42.0783 9.17157 42.8284C9.92172 43.5786 10.9391 44 12 44H36C37.0609 44 38.0783 43.5786 38.8284 42.8284C39.5786 42.0783 40 41.0609 40 40V16M28 4L40 16M28 4V16H40M24 36V24M18 30H30" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                             <div className="ml-2 group-focus-input-ring flex-1 flex border-2 border-gray-300 rounded-lg py-1 px-3 font-sans">
                                 {pdfFilename}

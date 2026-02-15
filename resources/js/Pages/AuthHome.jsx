@@ -12,19 +12,17 @@ export default function Home() {
             <header id="homeheader" className="py-16 flex flex-col items-center h-[50vh] w-full overflow-hidden relative justify-center">
                 <div className="absolute z-2 bottom-0 bg-white py-8 px-12 flex flex-col items-center rounded-t-3xl border-t-2 border-r-2 border-l-2 border-gray-300">
                     <h1 className="text-4xl mb-2">
-                        <span className="brand-2">Welcome</span> to <span className="brand-1">Margins!</span>
+                        <span className="brand-2">Welcome</span> to <span className="logo-color">Margins!</span><span className="beta-text">beta!:3</span>
                     </h1>
                     <p className="mb-4">An up-and-coming textbook annotation and Q&A platform, for students, by students.</p>
                     <div className="flex">
-                        <Link href="/register">
-                            <PrimaryButton className='btn-medium mr-4'>Sign up</PrimaryButton>
-                        </Link>
-                        <Link href="/login">
-                            <SecondaryButton className='btn-medium'>Log in</SecondaryButton>
+                        <Link href="/">
+                            <PrimaryButton className='btn-medium mr-4'>Go to Dashboard</PrimaryButton>
                         </Link>
                     </div>
                 </div>
-                <a href="/header" className="absolute right-4 bottom-2 apply-cursive text-blue-800" preserve-state preserve-scroll>You can edit this image!</a>
+                {/* maybe this is a bad idea... */}
+                {/* <a href="/header" className="absolute right-4 bottom-2 apply-cursive text-blue-800" preserve-state preserve-scroll>You can edit this image!</a> */}
             </header>
             <div className="mx-4 sm:mx-6 lg:mx-8 py-12 px-6 border-y-2 border-gray-300">
                 <div className="block-explanation w-full md:w-[75%] text-lg">
@@ -42,8 +40,8 @@ export default function Home() {
                     <p>And then, I ran into a problem. The books I read were quite specialised, even if they were basic. Which meant that, often, if I had a question - I would not be able to understand the explanation I found online.</p>
                     <p>This is where Margins comes in - with a textbook-focused, student-run approach to collaborative learning, (wow, she's just saying stuff isn't she?) answers can be tailored to the asker's understanding of a subject!</p>
                     <br/>
-                    <p>As for the annotations thing - that would be a practice I also started early on in my learning journey. I found that, even with dedicated notebooks, having to cross-reference things which made no sense to me with a whole 'nother book was needlessly time-consuming and included too many switch-points in which I could get distracted. Plus, there was no guarantee that I'd had already written the clarification</p>
-                    <p>And so I build this project, because frankly, I had nothing better to do with my time, and coding is tasty.</p>
+                    <p>As for the annotations thing - that would be a practice I also started early on in my learning journey. I found that, even with dedicated notebooks, having to cross-reference things which made no sense to me with a whole 'nother book was needlessly time-consuming and included too many switch-points in which I could get distracted. Plus, there was no guarantee that I'd had already written the clarification!</p>
+                    <p>And so I built this project, because frankly, I had nothing better to do with my time, and coding is tasty.</p>
                 </div>
                 
             </div>
@@ -60,8 +58,8 @@ export default function Home() {
                     <img src="/storage/images/thatsme.jpg"></img>
                 </div>
                 <div className="text-lg w-full md:w-[75%]">
-                    <h2 className="text-2xl mb-3">Okay but who am I?</h2>
-                    <p>My name is Zoya, on here I'm known as @quantmcheshircat. I'm an aspiring particle physicist and a coding enthusiast (should be evident, lol.)</p>
+                    <h2 className="text-2xl mb-3">Okay but, who am I?</h2>
+                    <p>My name is Zoya, on here I'm known as @su1cat. I'm an aspiring particle physicist and a coding enthusiast (should be evident, lol.)</p>
                     <p>The main books I'll be working on are, therefore, gonna be physmath and compsci related. However, all subjects are more than welcome on Margins!</p>
                     <p>I also greatly enjoy cetology (study of whales, dolphins and porpoises) and lepidopterology (study of butterflies and moths), so you may see me around there as well. Eventually.</p>
                 </div>

@@ -2,6 +2,7 @@ import { flashAfterScroll } from "@/helpers";
 import { usePage } from "@inertiajs/react";
 import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 export default function ReplyElement({reply, thread, topUser, hasMoreFrom, flashOnRender}) {
     const [newReply, setNewReply] = useState("");
@@ -17,6 +18,8 @@ export default function ReplyElement({reply, thread, topUser, hasMoreFrom, flash
     const [threadWithPrevs, setThreadWithPrevs] = useState(fillPrevs(thread));
     const hasThreadContainerRoot = useRef(null);
     const inThreadContainerRoot = useRef(null);
+
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     function fillPrevs(replyThread, searchables=[reply]) {
         if (replyThread && replyThread.length !== 0) {
@@ -34,8 +37,11 @@ export default function ReplyElement({reply, thread, topUser, hasMoreFrom, flash
         return [];
     }
 
-    function likeReplyRequest() {
+    async function likeReplyRequest() {
         errorRef.current.classList.add("hidden");
+
+        const token = await executeRecaptcha("LIKEREPLY");
+
         fetch(`/reply/${reply.id}/like`, {
             method: "POST",
             headers: {
@@ -43,18 +49,25 @@ export default function ReplyElement({reply, thread, topUser, hasMoreFrom, flash
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({liking})
+            body: JSON.stringify({liking, token})
         })
-        .then(response => response.json())
-        .then(_ => {
+        .then(response => {
+            if (!response.ok) {
+                throw response;
+            }
             setLiking(!liking);
-        }).catch((e) => {
+        })
+        .catch((e) => {
             errorRef.current.classList.remove("hidden");
+            console.log(e);
         });
     }
 
-    function submitReplyRequest(event) {
+    async function submitReplyRequest(event) {
       errorRef.current.classList.add("hidden");
+
+      const token = await executeRecaptcha("REPLYTHREAD");
+
       if (event.key === "Enter" && !event.shiftKey && newReply.trim() != "") {
         fetch(`/reply/${reply.id}/new`, {
             method: "POST",
@@ -63,9 +76,14 @@ export default function ReplyElement({reply, thread, topUser, hasMoreFrom, flash
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({text: newReply}),
+            body: JSON.stringify({text: newReply, token}),
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw response;
+            }
+            return response.json();
+        })
         .then(responseData => {
             setNewReply("");
             const returnedReply = {
@@ -102,7 +120,12 @@ export default function ReplyElement({reply, thread, topUser, hasMoreFrom, flash
             },
             body: JSON.stringify({page: nextThreadPage.current}),
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw response;
+            }
+            return response.json();
+        })
         .then(responseData => {
             nextThreadPage.current++;
             setThreadWithPrevs(fillPrevs([...threadWithPrevs, ...responseData.replies.data]));

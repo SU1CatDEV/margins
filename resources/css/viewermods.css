@@ -6,8 +6,9 @@
 ::before,
 ::after {
   box-sizing: content-box;
-  transition: ease-in-out;
-  transition-duration: 150ms;
+  /* uhm. how about we only do this for buttons and toolbars. */
+  /* transition: ease-in-out;
+  transition-duration: 150ms; */
 }
 
 button.delete {
@@ -59,18 +60,20 @@ input {
 } */
 
 #backendRequestSaveButton {
-  border: 2px solid oklch(80.9% 0.105 251.813);
-  background: oklch(88.2% 0.059 254.128);
   padding: 2px 8px;
-  border-radius: 0.5rem;
   height: 32px;
   margin-left: 8px;
   margin-right: 4px;
-  transition: ease-in-out;
-  transition-duration: 150ms;
 }
 
-#backendRequestSaveButton:hover {
-  border: 2px solid oklch(70.7% 0.165 254.624);
-  background: oklch(80.9% 0.105 251.813);
+.primary-button {
+  @apply border-2 border-blue-300 bg-blue-200 hover:border-blue-400 hover:bg-blue-300;
+}
+
+.error-button {
+  @apply border-2 border-red-300 bg-red-200 hover:border-red-400 hover:bg-red-300;
+}
+
+.success-button {
+  @apply border-2 border-green-300 bg-green-200 hover:border-green-400 hover:bg-green-300;
 }

@@ -5,19 +5,12 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\ProblemController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SolutionController;
 use App\Http\Controllers\ViewerController;
-use App\Models\Book;
-use App\Models\CentralSaverRepo;
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::controller(DashboardController::class)->group(function () {
     Route::get('/dashboard', 'books')->middleware(['auth', 'verified'])->name('dashboard');
@@ -30,8 +23,9 @@ Route::controller(DashboardController::class)->group(function () {
 })->middleware(['auth', 'verified']);
 
 Route::controller(ViewerController::class)->group(function () {
-    Route::get('/header', 'header')->middleware(['auth', 'verified'])->name('editHeader');
+    // Route::get('/header', 'header')->middleware(['auth', 'verified'])->name('editHeader');
     Route::get('/viewer/{book}', 'index')->middleware(['auth', 'verified'])->name('viewer');
+    Route::post('/verify', 'verifyCaptcha')->middleware(['auth', 'verified'])->name('verifyCaptcha');
     Route::post('/viewer/upload', 'upload')->middleware(['auth', 'verified'])->name('uploadAnnotationImage');
 })->middleware(['auth', 'verified']);
 

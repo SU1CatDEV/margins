@@ -3,9 +3,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { trimToLength } from "@/helpers";
 import PrimaryButton from "@/Components/PrimaryButton";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function CreateProblem({book}) {
     const linkData = JSON.parse(sessionStorage.getItem("linkUIdata"));
+
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     const [thisBook, setThisBook] = useState(book);
     const [questionTitle, setQuestionTitle] = useState(linkData ? `Please annotate: "${trimToLength(linkData.text, 100-19)}"` : "");
@@ -17,39 +20,43 @@ export default function CreateProblem({book}) {
 
     const perPage = 4;
 
-function addQuestionRequest(e) {
-    e.preventDefault();
-    if (!thisBook) {
-        return;
-    }
-    var questionData = {
-        bookId: thisBook.id,
-        title: questionTitle,
-        text: questionDescription
-    };
-    if (linkData) {
-        questionData = {
-            ...questionData,
-            ...linkData
+    async function addQuestionRequest(e) {
+        e.preventDefault();
+        if (!thisBook) {
+            return;
+        }
+
+        const token = await executeRecaptcha("CREATEPROBLEM");
+        
+        var questionData = {
+            bookId: thisBook.id,
+            title: questionTitle,
+            text: questionDescription,
+            token
         };
+        if (linkData) {
+            questionData = {
+                ...questionData,
+                ...linkData
+            };
+        }
+        fetch("/question/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                .content,
+            },
+            body: JSON.stringify(questionData),
+        })
+        .then(response => response.json())
+        .then(responseData => {
+            sessionStorage.clear("linkUIdata");
+            window.location.href = "/question/" + responseData.question.id;
+        })
+        .catch((e) => console.log(e));
     }
-    fetch("/question/add", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-            .content,
-        },
-        body: JSON.stringify(questionData),
-    })
-    .then(response => response.json())
-    .then(responseData => {
-        sessionStorage.clear("linkUIdata");
-        window.location.href = "/question/" + responseData.question.id;
-    })
-    .catch((e) => console.log(e));
-}
 
     async function search(event) {
         if (event.key !== "Backspace" && event.key !== "Delete" && query.trim() != "") {
@@ -69,7 +76,7 @@ function addQuestionRequest(e) {
                 }
                 return setResults(responseData.entries.data);
             }).catch((e) => {
-                console.error(e);
+                console.log(e);
             });
         }
     }
@@ -99,6 +106,7 @@ function addQuestionRequest(e) {
                         <label htmlFor="booksearch" className="text-xl">Select book</label>
                         <input id="booksearch" className="w-full relative z-10 rounded-lg border-2 border-gray-300" value={query} onBlur={hidePopup} onInput={e => setQuery(e.target.value)} onKeyDown={search}/>
                         <div className="hidden bookresults absolute w-full bg-white rounded-b-lg -mt-3 pt-2 border-2 border-gray-300 border-gray-300 border" ref={resultsContainer}>
+                            add error thingy. please?
                             {results.map((book) => (
                                 <a onClick={(e) => {e.preventDefault(); setThisBook(book); hidePopup(e)}} href="" className="block px-3 py-2 first:pt-4 no-underline hover:bg-gray-100 transition duration-200 ease-in-out" key={book.id}>
                                     <div className="text-lg" role="heading" aria-level="2">{book.title}</div>

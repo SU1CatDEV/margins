@@ -1,14 +1,19 @@
 import PrimaryButton from '@/Components/PrimaryButton';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function VerifyEmail({ status }) {
     const { post, processing } = useForm({});
 
-    const submit = (e) => {
+    const { executeRecaptcha } = useGoogleReCaptcha();
+
+    const submit = async (e) => {
         e.preventDefault();
 
-        post(route('verification.send'));
+        const token = await executeRecaptcha("VERIFYEMAIL");
+
+        post(route('verification.send', {token}));
     };
 
     return (

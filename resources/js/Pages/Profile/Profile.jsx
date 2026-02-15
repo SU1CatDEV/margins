@@ -174,7 +174,7 @@ export default function Profile({ profileInfo, books, questions, solutions }) {
                             <div className='userinfo'>
                                 {profileInfo.education && <p>Education: {profileInfo.education}</p>}
                                 {profileInfo.work && <p>Work: {profileInfo.work}</p>}
-                                <p>User rating: {userRating}/10</p>
+                                {/* <p>User rating: {userRating}/10</p> */}
                                 <p>Joined: {profileInfo.created_at.split("T")[0]}</p>
                             </div>
                         </div>

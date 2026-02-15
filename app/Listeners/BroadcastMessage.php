@@ -32,13 +32,15 @@ class BroadcastMessage
             if (str_starts_with($message['data']['channel'], 'presence-book.')) {
                 $bookId = intval(str_replace('presence-book.', '', $message['data']['channel']));
                 $userId = intval(json_decode($message['data']['channel_data'], true)['user_id']);
-                $book = Book::find($bookId);
-                $activeUsers = $book->active_users;
-                if (!in_array($userId, $activeUsers)) {
-                    array_push($activeUsers, $userId);
-                    $book->active_users = $activeUsers;
-                    $book->save();
-                    // Log::info($book);
+                if ($bookId !== 0) { // the header
+                    $book = Book::find($bookId);
+                    $activeUsers = $book->active_users;
+                    if (!in_array($userId, $activeUsers)) {
+                        array_push($activeUsers, $userId);
+                        $book->active_users = $activeUsers;
+                        $book->save();
+                        // Log::info($book);
+                    }
                 }
             }
         }

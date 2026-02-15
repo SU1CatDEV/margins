@@ -119,6 +119,16 @@ input[type=number] {
         margin-bottom: 0.25rem;
     }
 
+    .prompted-checkbox input:focus + label::before {
+        @apply ring ring-1 ring-blue-600;
+        content: "";
+        height: 25px;
+        width: 25px;
+        border: 2px solid #2563eb;
+        float: left;
+        border-radius: 8px;
+    }
+
     .prompted-checkbox label {
         color: black;
         line-height: 40px;
@@ -152,4 +162,18 @@ input[type=number] {
 
 .btn-smol {
     @apply px-6 py-1 text-base;
+}
+
+.beta-symbol {
+    font-size: 17px;
+    position: absolute;
+    top: 8px;
+    padding-left: 2px;
+}
+
+.beta-text {
+    font-size: 17px;
+    position: absolute;
+    top: 15px;
+    padding-left: 2px;
 }

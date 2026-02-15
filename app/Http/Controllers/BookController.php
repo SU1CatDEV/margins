@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Illuminate\Support\Arr;
+use App\Http\Requests\ReCaptchaRequest;
 
 class BookController extends Controller
 {
@@ -49,7 +50,7 @@ class BookController extends Controller
         return Inertia::render("Book/CreateBook");
     }
 
-    public function add(Request $request) {
+    public function add(ReCaptchaRequest $request) {
         $request->validate([
             'title' => 'required|string|max:127',
             'author' => 'required|string|max:63',
@@ -81,7 +82,7 @@ class BookController extends Controller
         ], 201);
     }
 
-    public function rate(Book $book, Request $request) {
+    public function rate(Book $book, ReCaptchaRequest $request) {
         $request->validate([
             "rating" => "required|integer"
         ]);

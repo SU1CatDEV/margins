@@ -4,16 +4,21 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, useForm } from '@inertiajs/react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function ConfirmPassword() {
     const { data, setData, post, processing, errors, reset } = useForm({
         password: '',
     });
 
-    const submit = (e) => {
+    const { executeRecaptcha } = useGoogleReCaptcha();
+
+    const submit = async (e) => {
         e.preventDefault();
 
-        post(route('password.confirm'), {
+        const token = await executeRecaptcha("CONFIRMPASS");
+
+        post(route('password.confirm', {token}), {
             onFinish: () => reset('password'),
         });
     };

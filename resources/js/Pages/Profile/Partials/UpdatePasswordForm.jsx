@@ -5,10 +5,13 @@ import TextInput from '@/Components/TextInput';
 import { Transition } from '@headlessui/react';
 import { useForm } from '@inertiajs/react';
 import { useRef } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function UpdatePasswordForm({ className = '' }) {
     const passwordInput = useRef();
     const currentPasswordInput = useRef();
+
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     const {
         data,
@@ -24,10 +27,12 @@ export default function UpdatePasswordForm({ className = '' }) {
         password_confirmation: '',
     });
 
-    const updatePassword = (e) => {
+    const updatePassword = async (e) => {
         e.preventDefault();
 
-        put(route('password.update'), {
+        const token = await executeRecaptcha("UPDATEPASS");
+
+        put(route('password.update', {token}), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {

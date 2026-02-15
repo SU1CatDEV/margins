@@ -6,10 +6,13 @@ import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
 import { useRef, useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function DeleteUserForm({ className = '' }) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const passwordInput = useRef();
+
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     const {
         data,
@@ -27,10 +30,12 @@ export default function DeleteUserForm({ className = '' }) {
         setConfirmingUserDeletion(true);
     };
 
-    const deleteUser = (e) => {
+    const deleteUser = async (e) => {
         e.preventDefault();
 
-        destroy(route('profile.destroy'), {
+        const token = await executeRecaptcha("DELETEUSER");
+
+        destroy(route('profile.destroy', {token}), {
             preserveScroll: true,
             onSuccess: () => closeModal(),
             onError: () => passwordInput.current.focus(),

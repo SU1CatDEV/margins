@@ -14,7 +14,7 @@ export default function BannedUser({userData}) {
                         <p>We have decided you are unfit for our services due to violations. The reason for your ban is: <b>{userData.ban_reason}</b></p>
                         <p>Your account has been deleted due to failure to address above ban reason(s). You are prohibited from creating new accounts, using someone else's account, or using any of our services in any capacity.</p>
                         <p>You have now been logged out. Your data, questions and solutions have been retained except for ones which contributed to your ban.</p>
-                        <p>There are no appeals for this process. Thank you for your understanding and your interest in Margins.</p>
+                        <p>You may appeal by messaging me at @schrodinger1cat on discord. Thank you for your understanding and your interest in Margins.</p>
                     </div>
                 </div>
             </div>

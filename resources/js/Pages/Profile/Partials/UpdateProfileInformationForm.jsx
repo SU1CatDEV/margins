@@ -6,6 +6,7 @@ import TextArea from '@/Components/TextArea';
 import TextInput from '@/Components/TextInput';
 import { Transition } from '@headlessui/react';
 import { Link, useForm, usePage } from '@inertiajs/react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -13,6 +14,10 @@ export default function UpdateProfileInformation({
     className = '',
 }) {
     const user = usePage().props.auth.user;
+
+    const { executeRecaptcha } = useGoogleReCaptcha();
+
+    
 
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
@@ -24,11 +29,16 @@ export default function UpdateProfileInformation({
             email: user.email,
             bio: user.bio,
         });
+    
+        console.log(data.pronouns)
+    console.log(Boolean(data.pronouns))
 
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
 
-        patch(route('profile.update'));
+        const token = await executeRecaptcha("UPDATEPROFILE");
+
+        patch(route('profile.update', {token}));
     };
 
     return (
@@ -113,10 +123,11 @@ export default function UpdateProfileInformation({
                         <Select
                             id="pronouns"
                             className="mt-1 block w-full"
-                            value={data.pronouns}
+                            value={"none"}
                             onChange={(e) => setData('pronouns', e.target.value)}
                             required
                         >
+                            <option name="none" disabled={data.pronouns}>unknown</option>
                             <option name="she">she/her</option>
                             <option name="he">he/him</option>
                             <option name="they">they/them</option>

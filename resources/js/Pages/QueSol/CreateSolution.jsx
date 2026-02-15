@@ -3,9 +3,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { trimToLength } from "@/helpers";
 import PrimaryButton from "@/Components/PrimaryButton";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function CreateSolution({book}) {
     const linkData = JSON.parse(sessionStorage.getItem("linkUIdata"));
+
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     const [chapter, setChapter] = useState("");
     const [problemNum, setProblemNum] = useState("");
@@ -41,17 +44,21 @@ export default function CreateSolution({book}) {
         setTags(tags.filter((t, id) => id !== tagId));
     }
 
-    function addSolutionRequest(e) {
+    async function addSolutionRequest(e) {
         e.preventDefault();
         if (!thisBook) {
             return;
         }
+
+        const token = await executeRecaptcha("CREATESOLUTION");
+
         var solutionData = {
             bookId: thisBook.id,
             problemNumber: `${chapter}.${problemNum}`,
             problemText: problemDescription,
             solutionText: solutionDescription,
-            keywords: tags
+            keywords: tags,
+            token
         };
         if (linkData) {
             solutionData = {
@@ -136,7 +143,7 @@ export default function CreateSolution({book}) {
                             <div key={index} onClick={() => {removeTag(index)}} className="bg-gray-300 hover:bg-gray-200 px-5 mr-2 mt-2 rounded-lg flex items-center">
                                 <span className="mr-2 whitespace-nowrap">{tag}</span>
                                 <svg className="mt-0.5" width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M36 12L12 36M12 12L36 36" stroke="#1E1E1E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M36 12L12 36M12 12L36 36" stroke="#1E1E1E" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                             </div>
                         ))}

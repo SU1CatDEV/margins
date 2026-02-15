@@ -19,7 +19,7 @@ export default function AuthenticatedLayout({ header, title, children, withSideb
                 {withSidebar && <div className=" border-r-2 border-gray-300 px-4 sm:px-6 lg:px-8 dark:border-gray-700 bg-white dark:bg-gray-800">
                     <div className="flex flex-col shrink-0 items-center">
                         <Link href="/" className='mt-6 mb-2 '>
-                            <span className='mt-2 pt-2 pb-1 border-b-2 border-gray-300 text-2xl apply-cursive logo-color'>M</span>
+                            <span className='mt-2 pt-2 pb-1 border-b-2 border-gray-300 text-2xl apply-cursive logo-color'>M</span><span className="beta-symbol">β</span>
                         </Link>
                         <Link href="/dashboard/books" className='mt-10 mb-2'>
                             <svg width="35" height="35" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -28,7 +28,7 @@ export default function AuthenticatedLayout({ header, title, children, withSideb
                                             route().current() === "dashboard" || 
                                             route().current() === "index" || 
                                             route().current() === "dashboard.books" ? "black" : "#777"} 
-                                stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         </Link>
                         <Link href="/dashboard/questions" className='mt-10 mb-2'>
@@ -45,7 +45,7 @@ export default function AuthenticatedLayout({ header, title, children, withSideb
                                 <path d="M18 22L24 28L44 8M42 24V38C42 39.0609 41.5786 40.0783 40.8284 40.8284C40.0783 41.5786 39.0609 42 38 42H10C8.93913 42 7.92172 41.5786 7.17157 40.8284C6.42143 40.0783 6 39.0609 6 38V10C6 8.93913 6.42143 7.92172 7.17157 7.17157C7.92172 6.42143 8.93913 6 10 6H32" 
                                         stroke={
                                             route().current() === "dashboard.solutions" ? "black" : "#777"} 
-                                stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         </Link>
                         <Link href="/search" className='mt-10 mb-2'>
@@ -68,7 +68,7 @@ export default function AuthenticatedLayout({ header, title, children, withSideb
                                 <div className="flex w-full">
                                     {!withSidebar && <div className="flex shrink-0 items-center">
                                         <Link href="/" className='border-r-2 border-gray-300 pr-5 pt-2 mr-5'>
-                                            <span className='mt-2 pt-2 text-2xl apply-cursive logo-color'>M</span>
+                                            <span className='mt-2 pt-2 text-2xl apply-cursive logo-color'>M</span><span className="beta-symbol">β</span>
                                         </Link>
                                     </div>}
 

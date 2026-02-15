@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Http\Requests\ReCaptchaRequest;
 
 class ConfirmablePasswordController extends Controller
 {
@@ -23,7 +24,7 @@ class ConfirmablePasswordController extends Controller
     /**
      * Confirm the user's password.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(ReCaptchaRequest $request): RedirectResponse
     {
         if (! Auth::guard('web')->validate([
             'email' => $request->user()->email,

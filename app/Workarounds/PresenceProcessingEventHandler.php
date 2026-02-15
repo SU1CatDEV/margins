@@ -12,6 +12,7 @@ use Laravel\Reverb\Protocols\Pusher\Channels\Channel;
 use Laravel\Reverb\Protocols\Pusher\Contracts\ChannelManager;
 use App\Models\CentralSaverRepo;
 
+// ok so. the request sends both the 
 class PresenceProcessingEventHandler extends EventHandler
 {
     /**

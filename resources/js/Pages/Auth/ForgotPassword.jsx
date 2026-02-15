@@ -3,16 +3,21 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, useForm } from '@inertiajs/react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function ForgotPassword({ status }) {
     const { data, setData, post, processing, errors } = useForm({
         email: '',
     });
 
-    const submit = (e) => {
+    const { executeRecaptcha } = useGoogleReCaptcha();
+
+    const submit = async (e) => {
         e.preventDefault();
 
-        post(route('password.email'));
+        const token = await executeRecaptcha("FORGOTPASS");
+
+        post(route('password.email', {token}));
     };
 
     return (

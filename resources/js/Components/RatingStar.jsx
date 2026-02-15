@@ -1,0 +1,16 @@
+export default function RatingStar({id, onClick}) {
+    return (
+        <button id={id} className="star" onClick={onClick}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path 
+                    d="M13.8789 10.0146L14.1133 10.5693L14.7139 10.6211L19.5596 11.041L15.8945 14.2197L15.4404 14.6143L15.5762 15.2002L16.668 19.9229L12.5166 17.4189L12 17.1074L11.4834 17.4189L7.33105 19.9229L8.42383 15.2002L8.55957 14.6143L8.10547 14.2197L4.43945 11.041L9.28613 10.6211L9.88672 10.5693L10.1211 10.0146L12 5.56836L13.8789 10.0146Z" 
+                    fill="none" 
+                    stroke="#777777" 
+                    strokeLinecap="round"
+                    strokeLinejoin="round" 
+                    strokeWidth="2"
+                />
+            </svg>
+        </button>
+    )
+}

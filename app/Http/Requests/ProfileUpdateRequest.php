@@ -5,8 +5,9 @@ namespace App\Http\Requests;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Http\Requests\ReCaptchaRequest;
 
-class ProfileUpdateRequest extends FormRequest
+class ProfileUpdateRequest extends ReCaptchaRequest
 {
     /**
      * Get the validation rules that apply to the request.

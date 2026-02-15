@@ -16,6 +16,8 @@ return new class extends Migration
             $table->boolean('inactive')->default(false);
             $table->timestamp('clearby')->nullable();
             $table->json('diffs')->nullable();
+            $table->json('save_sessions')->nullable(); // ok in my defense im a physics student . 
+            // naming things does not come naturally to us.
             $table->json('users')->nullable();
             $table->unsignedBigInteger('book_id');
             $table->timestamps();

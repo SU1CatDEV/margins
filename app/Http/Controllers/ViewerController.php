@@ -6,6 +6,7 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\ReCaptchaRequest;
 
 class ViewerController extends Controller
 {
@@ -23,6 +24,10 @@ class ViewerController extends Controller
         ->with('bookId', 0)
         ->with('bookTitle', 'Margins site header')
         ->with('bookUrl', '/storage/header.pdf');
+    }
+
+    public function verifyCaptcha(ReCaptchaRequest $_) {
+        return response()->json(200);
     }
 
     public function upload(Request $request) {

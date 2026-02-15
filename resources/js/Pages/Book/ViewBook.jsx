@@ -7,6 +7,7 @@ import QuestionCard from "@/Components/QuestionCard";
 import SecondaryButton from "@/Components/SecondaryButton";
 import SolutionCard from "@/Components/SolutionCard";
 import { averageArray } from "@/helpers";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 export default function ViewBook({book, user, questions, solutions}) {
     const currentUser = usePage().props.auth.user;
@@ -27,15 +28,18 @@ export default function ViewBook({book, user, questions, solutions}) {
     const openQuestionRef = useRef(null);
     const openSolutionRef = useRef(null);
 
+    const [captchaError, setCaptchaError] = useState("");
+
     const [bookRatings, setBookRatings] = useState(book.ratings);
     const [bookQuality, setBookQuality] = useState(0);
+
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     useEffect(() => {
         if (currentlyOpenPath.current === pathInfo.current) {
             pathInfo.current.setAttribute("stroke", "black");
             pathQuestion.current.setAttribute("fill", "gray");
             pathSolution.current.setAttribute("stroke", "gray");
-            
 
             pathInfo.current.parentElement.parentElement.classList.remove("border-gray-300");
             pathInfo.current.parentElement.parentElement.classList.add("border-black", "border-r-2");
@@ -127,6 +131,31 @@ export default function ViewBook({book, user, questions, solutions}) {
         setBookQuality(quality);
     }, [bookRatings]);
 
+    async function openViewer() {
+        const token = await executeRecaptcha("STARTEDITING");
+
+        fetch("/verify", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                .content,
+            },
+            body: JSON.stringify({token}),
+          })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 422) {
+                        setCaptchaError("Sorry, the reCAPTCHA failed. Please try again later!^^");
+                    }
+                    throw response;
+                }
+                window.location.replace("/viewer/" + book.id);
+            })
+            .catch((e) => console.log(e));
+    }
+
     return (
         <AuthenticatedLayout title={"Book view"}>
             <div className="flex flex-col items-center mt-8 mb-5">
@@ -135,9 +164,8 @@ export default function ViewBook({book, user, questions, solutions}) {
                 </div>
                 <h2 className="text-2xl mt-4">{book.title}</h2>
                 <div className="apply-cursive text-gray-500">{book.author}</div>
-                <a href={"/viewer/" + book.id} className="mt-2">
-                    <PrimaryButton className="btn-large"><span className="pt-1 mr-1.5">Edit</span> <img width="25px" src="/assets/edit.svg"/></PrimaryButton>
-                </a>
+                <PrimaryButton onClick={openViewer} className="btn-large mt-2"><span className="pt-1 mr-1.5">Edit</span> <img width="25px" src="/assets/edit.svg"/></PrimaryButton>
+                <p className="text-red-700 text-lg pt-2">{captchaError}</p> 
             </div>
             <div className="flex items-center relative h-14 mx-4 sm:mx-6 lg:mx-8 border-y-2 border-gray-300">
                 <div className="absolute left-1/2 transform -translate-x-1/2 flex" ref={infoBarRef}>

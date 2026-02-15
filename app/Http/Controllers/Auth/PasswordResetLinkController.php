@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Http\Requests\ReCaptchaRequest;
 
 class PasswordResetLinkController extends Controller
 {
@@ -27,7 +28,7 @@ class PasswordResetLinkController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(ReCaptchaRequest $request): RedirectResponse
     {
         $request->validate([
             'email' => 'required|email',

@@ -49,7 +49,7 @@ class ReportController extends Controller
             $user->save();
         }
         
-        return Inertia::location(route('report.received', ['report' => $report->id]));
+        return Inertia::location(route('report.received', ['report' => $request->token]));
     }
 
     public function reportReceived(Report $report) {

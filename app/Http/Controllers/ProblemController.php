@@ -9,6 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use App\Http\Requests\ReCaptchaRequest;
 
 class ProblemController extends Controller
 {
@@ -20,7 +21,7 @@ class ProblemController extends Controller
         return Inertia::render('QueSol/CreateProblem');
     }
 
-    public function add(Request $request) {
+    public function add(ReCaptchaRequest $request) {
         $request->validate([
             'title' => 'required|string|max:100',
             'text' => 'required|string|max:5000',
@@ -82,7 +83,7 @@ class ProblemController extends Controller
         ]);
     }
 
-    public function like(Question $question, Request $request) {
+    public function like(Question $question, ReCaptchaRequest $request) {
         $request->validate([
             "liking" => "required|boolean"
         ]);
@@ -110,7 +111,7 @@ class ProblemController extends Controller
         return response()->json(200);
     }
 
-    public function reply(Question $question, Request $request) {
+    public function reply(Question $question, ReCaptchaRequest $request) {
         $request->validate([
             "text" => "required|string"
         ]);

@@ -16,12 +16,14 @@ class CentralSaverSession extends Model
         'inactive',
         'clearby',
         'diffs',
+        'save_sessions',
         'users',
     ];
 
     protected $casts = [
         'diffs' => 'array',
         'users' => 'array',
+        'save_sessions' => 'array'
     ];
 
     public function book()

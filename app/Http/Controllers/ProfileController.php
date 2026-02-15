@@ -17,15 +17,20 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Http\Requests\ReCaptchaRequest;
 
 class ProfileController extends Controller
 {
     public function view($id = null)
     {
-        if (!$id) {
+        if ($id == null) {
             $user = Auth::user();
         } else {
             $user = User::find($id);
+        }
+
+        if (!$user) {
+            abort(404);
         }
 
         $user->loadCount("books", "questions", "solutions");
@@ -48,6 +53,9 @@ class ProfileController extends Controller
             ->get();
 
             if ($user->books_count) {
+                Log::info($users);
+                Log::info("userbook_rank");
+                Log::info($user);
                 $user->book_quality = Helpers::checkQuality($users, "userbook_rank", $user);
             }
             if ($user->questions_count) {
@@ -100,7 +108,7 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(ReCaptchaRequest $request): RedirectResponse
     {
         $request->validate([
             'password' => ['required', 'current_password'],

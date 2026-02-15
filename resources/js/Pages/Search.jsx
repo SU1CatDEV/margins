@@ -40,7 +40,12 @@ export default function Search() {
                 },
                 body: JSON.stringify({query, searchWhat, page: 1, perPage}),
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw response;
+                }
+                return response.json();
+            })
             .then(responseData => {
                 if (responseData.entries?.data.length === 0) {
                     noResults.current.classList.remove("hidden");
@@ -85,7 +90,12 @@ export default function Search() {
             },
             body: JSON.stringify({query, searchWhat, page: page + 1, perPage}),
         })
-        .then(response => response.json())
+        .then(response => {
+			if (!response.ok) {
+				throw response;
+			}
+			return response.json();
+		})
         .then(responseData => {
             if (!responseData.hasMore) {
                 moreButton.current.classList.add("hidden");

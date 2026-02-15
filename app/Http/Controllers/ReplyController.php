@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Reply;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use App\Http\Requests\ReCaptchaRequest;
 
 class ReplyController extends Controller
 {
-    public function addReply(Reply $reply, Request $request) {
+    public function addReply(Reply $reply, ReCaptchaRequest $request) {
         $request->validate([
             'text' => 'required|string'
         ]);
@@ -43,7 +43,7 @@ class ReplyController extends Controller
         ]);
     }
 
-    public function likeReply(Reply $reply, Request $request) {
+    public function likeReply(Reply $reply, ReCaptchaRequest $request) {
         $request->validate([
             "liking" => "required|boolean"
         ]);

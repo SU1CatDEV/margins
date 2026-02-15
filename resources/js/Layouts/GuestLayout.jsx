@@ -19,6 +19,7 @@ export default function GuestLayout({ children, title }) {
                                 <div className="flex shrink-0 items-center">
                                     <Link href="/" className='border-r-2 border-gray-300 pr-5 pt-2 mr-5'>
                                         <span className='mt-2 pt-2 text-2xl apply-cursive logo-color'>M</span>
+                                        <span className="beta-symbol">β</span>
                                     </Link>
 
                                     {title && <h1 className="text-4xl w-auto -mb-3 flex align-end items-end">

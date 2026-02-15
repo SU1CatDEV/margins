@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3"; 
 
 export default function QuestionCard({question, liked, size="sm"}) {
     const [liking, setLiking] = useState(!liked);
@@ -6,8 +7,13 @@ export default function QuestionCard({question, liked, size="sm"}) {
     const [repliesNum, setRepliesNum] = useState(question.replies_count);
     const errorRef = useRef(null);
 
-    function likeQuestionRequest(e) {
+    const { executeRecaptcha } = useGoogleReCaptcha();
+
+    async function likeQuestionRequest(e) {
         errorRef.current.classList.add("hidden");
+
+        const token = await executeRecaptcha("LIKEQUESTION");
+
         fetch(`/question/${question.id}/like`, {
             method: "POST",
             headers: {
@@ -15,19 +21,25 @@ export default function QuestionCard({question, liked, size="sm"}) {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({liking})
+            body: JSON.stringify({liking, token})
         })
-        .then(response => response.json())
-        .then(_ => {
+        .then(response => {
+            if (!response.ok) {
+                throw response;
+            }
             setLiking(!liking);
-        }).catch((e) => {
+        })
+        .catch((e) => {
             errorRef.current.classList.remove("hidden");
             console.error(e);
         });
     }
 
-    function submitReplyRequest(event) {
+    async function submitReplyRequest(event) {
         errorRef.current.classList.add("hidden");
+
+        const token = await executeRecaptcha("REPLYQUESTION");
+
         if ((event.key === "Enter" || event.type === "click") && reply.trim() != "") {
             fetch(`/question/${question.id}/reply`, {
                 method: "POST",
@@ -36,13 +48,16 @@ export default function QuestionCard({question, liked, size="sm"}) {
                     "Accept": "application/json",
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({text: reply}),
+                body: JSON.stringify({text: reply, token}),
             })
-            .then(response => response.json())
-            .then(responseData => {
+            .then(response => {
+                if (!response.ok) {
+                    throw response;
+                }
                 setRepliesNum(repliesNum+1);
                 setReply("");
-            }).catch((e) => {
+            })
+            .catch((e) => {
                 errorRef.current.classList.remove("hidden");
                 console.error(e);
             });

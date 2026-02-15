@@ -4,6 +4,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, useForm } from '@inertiajs/react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function ResetPassword({ token, email }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -13,10 +14,14 @@ export default function ResetPassword({ token, email }) {
         password_confirmation: '',
     });
 
-    const submit = (e) => {
+    const { executeRecaptcha } = useGoogleReCaptcha();
+
+    const submit = async (e) => {
         e.preventDefault();
 
-        post(route('password.store'), {
+        const token = await executeRecaptcha("RESETPASS");
+
+        post(route('password.store', {token}), {
             onFinish: () => reset('password', 'password_confirmation'),
         });
     };

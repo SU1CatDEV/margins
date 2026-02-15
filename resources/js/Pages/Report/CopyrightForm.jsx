@@ -6,6 +6,8 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 export default function CopyrightForm({bookId}) {
     const { data, setData, post, errors, setError, clearErrors, processing, recentlySuccessful } =
@@ -28,7 +30,9 @@ export default function CopyrightForm({bookId}) {
             eSignature: "",
         });
     
-    function submit(e) {
+    const { executeRecaptcha } = useGoogleReCaptcha();
+    
+    async function submit(e) {
         e.preventDefault();
 
         clearErrors();
@@ -43,19 +47,27 @@ export default function CopyrightForm({bookId}) {
             
             return;
         }
-        
-        post(route('report.newcopyright', {"book": bookId}));
+
+        const token = await executeRecaptcha("COPYRIGHT");
+
+        post(route('report.newcopyright', {book: bookId, token}));
     }
 
+    useEffect(() => {
+        console.log(errors)
+    }, [errors])
+
     return (
-        <AuthenticatedLayout title={"Removal form"}>
+            <AuthenticatedLayout title={"Removal form"}>
             <div className="mx-4 sm:mx-6 lg:mx-8 py-12 px-6">
                 <h1 className="text-3xl">Notice of Copyright Infringement</h1>
-                <h2 className="text-xl">Request for Removal of Infringing Material</h2>
-  
-                <form class="mt-5 space-y-8" onSubmit={submit}>
+                <h2 className="text-xl mb-2">Request for Removal of Infringing Material</h2>
+
+                {Object.keys(errors).map((field, idx) => (<p className="text-lg text-red-700" key={idx}>{field != "token" ? `${field}: ${errors[field]}` : errors[field]}</p>))}
+
+                <form className="mt-5 space-y-8" onSubmit={submit}>
                     <div className="space-y-1">
-                    <p class="flex items-center flex-wrap gap-1">
+                    <p className="flex items-center flex-wrap gap-1">
                         <span>I,</span>
                         <InlineInput 
                             value={data.nameOfRequester}
@@ -151,7 +163,7 @@ act on behalf of, the owner of the rights being infringed by the material listed
 
                     <div className="space-x-3 flex flex-wrap items-center">
                         <PrimaryButton className="btn-medium mr-5" disabled={processing}>Submit</PrimaryButton>
-                        {Object.keys(errors).map((field) => (<p className="text-red-700">{field}: {errors[field]}</p>))}
+                        {Object.keys(errors).map((field, idx) => (<p className="text-lg text-red-700" key={idx}>{field != "token" ? `${field}: ${errors[field]}` : errors[field]}</p>))}
                     </div>
                 </form>
             </div>

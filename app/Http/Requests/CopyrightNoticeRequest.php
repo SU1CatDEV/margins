@@ -3,10 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ReCaptchaRequest;
 use Illuminate\Validation\Rule;
 
-class CopyrightNoticeRequest extends FormRequest
+class CopyrightNoticeRequest extends ReCaptchaRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,6 +16,7 @@ class CopyrightNoticeRequest extends FormRequest
     public function rules(): array
     {
         return [
+            ...parent::rules(),
             "nameOfRequester" => "required|string",
             "nameOfOwner" => "required|string",
             "workTitle" => "required|string",

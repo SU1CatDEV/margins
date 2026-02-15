@@ -29,7 +29,7 @@ See https://github.com/adobe-type-tools/cmap-resources
 <!--#endif-->
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>PDF.js viewer</title>
+    <title>Margins PDF.js viewer</title>
 
 <!--#if MOZCENTRAL-->
 <!--#include viewer-snippet-firefox-extension.html-->
@@ -123,10 +123,12 @@ See https://github.com/adobe-type-tools/cmap-resources
     
     </script>
     @vite(['resources/js/bootstrap.js'])
-    @vite(['resources/js/pdf.js/web/viewer.js'])
+    <!-- @vite(['resources/js/pdf.js/build/generic/build/pdf.mjs'])
+    @vite(['resources/js/pdf.js/build/generic/web/viewer.mjs']) -->
     @vite('resources/css/viewermods.css')
-    <!-- @vite(['resources/css/pdf.js/web/viewer.js']) -->
+    @vite('resources/js/pdf.js/web/viewer.js')
     <!-- <script src="{{asset('pdf.js/web/viewer.js')}}" type="module"></script> -->
+    <script src="https://www.google.com/recaptcha/api.js?render={{config('services.google.recaptcha.site_key')}}"></script>
 <!--#endif-->
   </head>
         
@@ -180,7 +182,7 @@ See https://github.com/adobe-type-tools/cmap-resources
             <div id="toolbarViewer" class="toolbarHorizontalGroup">
               <div id="toolbarViewerLeft" class="toolbarHorizontalGroup">
 
-                <button id="backendRequestSaveButton" class="toolbarButton" type="button" title="Save" tabindex="0" data-l10n-id="pdfjs-save-button">
+                <button id="backendRequestSaveButton" class="toolbarButton primary-button rounded-lg ease-in-out duration-150" type="button" title="Save" tabindex="0" data-l10n-id="pdfjs-save-button">
                   <span data-l10n-id="pdfjs-save-button-label">Save</span>
                 </button>
 

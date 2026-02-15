@@ -5,6 +5,8 @@ import SolutionCard from "@/Components/SolutionCard";
 import ReplyElement from "@/Components/ReplyElement";
 import { createRoot } from "react-dom/client";
 import {flashAfterScroll} from "@/helpers";
+import QuestionCard from "@/Components/QuestionCard";
+import ForumLayout from "@/Layouts/ForumLayout";
 
 export default function ViewSolution({solution, threads, hasMore}) {
     const [topReply, setTopReply] = useState("");
@@ -14,54 +16,55 @@ export default function ViewSolution({solution, threads, hasMore}) {
     const newReplyContainer = useRef(null);
     const errorRef = useRef(null);
 
-    function submitReplyRequest(event) {
-        errorRef.current.classList.add("hidden");
-        if (event.key === "Enter" && !event.shiftKey && topReply.trim() != "") {
-            fetch(`/solution/${solution.id}/reply`, {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({text: topReply}),
-            })
-            .then(response => response.json())
-            .then(responseData => {
-                setTopReply("");
-                const returnedReply = {
-                    ...responseData.reply,
-                    prevUser: solution.user
-                }
-                setThreadStarts([returnedReply, ...threadStarts]);
-            }).catch((e) => {
-                errorRef.current.classList.remove("hidden");
-                console.error(e);
-            });
-        }
-    }
+    // function submitReplyRequest(event) {
+    //     errorRef.current.classList.add("hidden");
+    //     if (event.key === "Enter" && !event.shiftKey && topReply.trim() != "") {
+    //         fetch(`/solution/${solution.id}/reply`, {
+    //             method: "POST",
+    //             headers: {
+    //                 "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+    //                 "Accept": "application/json",
+    //                 "Content-Type": "application/json"
+    //             },
+    //             body: JSON.stringify({text: topReply}),
+    //         })
+    //         .then(response => response.json())
+    //         .then(responseData => {
+    //             setTopReply("");
+    //             const returnedReply = {
+    //                 ...responseData.reply,
+    //                 prevUser: solution.user
+    //             }
+    //             setThreadStarts([returnedReply, ...threadStarts]);
+    //         }).catch((e) => {
+    //             errorRef.current.classList.remove("hidden");
+    //             console.error(e);
+    //         });
+    //     }
+    // }
 
-    function loadThreads() {
-        errorRef.current.classList.add("hidden");
-        fetch(`/solution/${solution.id}/replies`, {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({page: nextLoadPage.current}),
-        })
-        .then(response => response.json())
-        .then(responseData => {
-            setThreadStarts([...threadStarts, ...responseData.replies.data]);
-            nextLoadPage.current++;
-        }).catch((e) => {
-            errorRef.current.classList.remove("hidden");
-            console.error(e);
-        });
-    }
+    // function loadThreads() {
+    //     errorRef.current.classList.add("hidden");
+    //     fetch(`/solution/${solution.id}/replies`, {
+    //         method: "POST",
+    //         headers: {
+    //             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+    //             "Accept": "application/json",
+    //             "Content-Type": "application/json"
+    //         },
+    //         body: JSON.stringify({page: nextLoadPage.current}),
+    //     })
+    //     .then(response => response.json())
+    //     .then(responseData => {
+    //         setThreadStarts([...threadStarts, ...responseData.replies.data]);
+    //         nextLoadPage.current++;
+    //     }).catch((e) => {
+    //         errorRef.current.classList.remove("hidden");
+    //         console.error(e);
+    //     });
+    // }
 
+    // hi so why is this not. a forumlayout wrap. are you dumb? are you just careless? hi?
     return (
         <AuthenticatedLayout
             title={"Solution"}
@@ -71,7 +74,7 @@ export default function ViewSolution({solution, threads, hasMore}) {
                 </h2>
             }
         >
-            <div className="mx-4 sm:mx-6 lg:mx-8 my-10">
+            {/* <div className="mx-4 sm:mx-6 lg:mx-8 my-10">
                 <SolutionCard solution={solution} size="lg" liked={solution.liked_users.includes(currentUser.id)}></SolutionCard>
                 <div ref={errorRef} className="mb-5 hidden bg-red-100 rounded-lg border-2 border-red-300 px-3 py-2">An error occured, try reloading the page.</div>
                 <div ref={newReplyContainer} className="relative mb-4">
@@ -97,8 +100,10 @@ export default function ViewSolution({solution, threads, hasMore}) {
                 </div>
 
                 {hasMore ? <button className="text-lg text-blue-500" onClick={loadThreads}>Load more threads...</button> : ""}
-            </div>
-
+            </div> */}
+            <ForumLayout endpoint={`/solution/${solution.id}`} user={solution.user} threads={threads} hasMore={hasMore}>
+                <SolutionCard solution={solution} size="lg" liked={solution.liked_users.includes(currentUser.id)}></SolutionCard>
+            </ForumLayout>
         </AuthenticatedLayout>
     );
 }

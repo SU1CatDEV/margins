@@ -49251,7 +49251,7 @@ class AnnotationBorderStyle {
         this.rawWidth = width;
         const maxWidth = (rect[2] - rect[0]) / 2;
         const maxHeight = (rect[3] - rect[1]) / 2;
-        if (maxWidth > 0 && maxHeight > 0 && (width > maxWidth || width > maxHeight)) {
+        if (maxWidth > 0 && maxHeight > 0 && (width > maxWidth + 1 || width > maxHeight + 1)) {
           warn(`AnnotationBorderStyle.setWidth - ignoring width: ${width}`);
           width = 1;
         }

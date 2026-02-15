@@ -50,7 +50,12 @@ export default function SearchBar() {
                 },
                 body: JSON.stringify({query, searchWhat, page: 1, perPage}),
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw response;
+                }
+                return response.json();
+            })
             .then(responseData => {
                 if (responseData.entries?.data.length === 0) {
                     setShouldRound(false);
@@ -124,7 +129,12 @@ export default function SearchBar() {
             },
             body: JSON.stringify({query, searchWhat, page: page + 1, perPage}),
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw response;
+            }
+            return response.json();
+        })
         .then(responseData => {
             if (!responseData.hasMore) {
                 setShouldRound(true);
