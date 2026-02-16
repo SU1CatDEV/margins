@@ -10,7 +10,9 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SolutionController;
 use App\Http\Controllers\ViewerController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 
 Route::controller(DashboardController::class)->group(function () {
     Route::get('/dashboard', 'books')->middleware(['auth', 'verified'])->name('dashboard');
@@ -75,11 +77,18 @@ Route::controller(ReportController::class)->group(function () {
     Route::get('/report-received/{report}', 'reportReceived')->middleware(['auth', 'verified'])->name('report.received');
 });
 
+Route::controller(TestController::class)->group(function () {
+    Route::get('/test', 'create')->middleware(['auth:sanctum', 'verified'])->name('test.create');
+    Route::post('/api/test', 'add')->middleware(['auth:sanctum', 'verified'])->name('test.add');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/profile/{id?}', [ProfileController::class, 'view'])->name('profile.view');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show'])->name('sanctum.csrf-cookie');
 
 require __DIR__.'/auth.php';

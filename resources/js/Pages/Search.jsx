@@ -4,6 +4,7 @@ import SolutionCard from "@/Components/SolutionCard";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { usePage } from "@inertiajs/react";
 import { useEffect, useRef, useState } from "react";
+import axios from "axios";
 
 export default function Search() {
     const currentUser = usePage().props.auth.user;
@@ -22,6 +23,12 @@ export default function Search() {
     const perPage = 8;
 
     async function search(event) {
+        axios.get('/sanctum/csrf-cookie').then(response => {
+            axios.post('/search/test')
+            .then(response => {
+                console.log(response)
+            })
+        })
         errorResult.current.classList.add("hidden");
         noResults.current.classList.add("hidden");
         moreButton.current.classList.add("hidden");

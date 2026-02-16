@@ -20,12 +20,13 @@ createInertiaApp({
 
         console.log(props);
         root.render(
-            <GoogleReCaptchaProvider reCaptchaKey={props.initialPage.props.recaptchaSiteKey}>
-                <App {...props} />
-            </GoogleReCaptchaProvider>
+            <App {...props} />
         );
     },
     progress: {
         color: '#4B5563',
     },
 });
+// {/*<GoogleReCaptchaProvider reCaptchaKey={props.initialPage.props.recaptchaSiteKey}>*/}
+                
+//             {/* </GoogleReCaptchaProvider> */}
